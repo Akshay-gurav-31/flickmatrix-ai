@@ -5,10 +5,11 @@ colorFrom: red
 colorTo: gray
 sdk: streamlit
 sdk_version: 1.45.1
+hardware: cpu-basic
 app_file: app.py
 pinned: true
 license: mit
-short_description: Production-Grade Movie Recommendation System with 5 ML Models
+short_description: Movie Recommendation System with 5 ML Models
 ---
 
 # FlickMatrix AI
