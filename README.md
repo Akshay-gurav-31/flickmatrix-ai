@@ -1,5 +1,9 @@
 # 🎬 FlickMatrix AI: Production-Grade Movie Recommendation System
 
+<p align="center">
+  <img src="assets/logo.png" alt="FlickMatrix AI Logo" width="280"/>
+</p>
+
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![License MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Akshay-gurav-31/flickmatrix-ai/blob/main/LICENSE)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-009688.svg)](https://fastapi.tiangolo.com/)
