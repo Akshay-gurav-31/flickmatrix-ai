@@ -9,7 +9,7 @@ Thank you for your interest in contributing to **FlickMatrix AI**! We welcome op
 1. **Fork the Repository** on GitHub.
 2. **Clone your Fork** locally:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/flickmatrix-ai.git
+   git clone https://github.com/Akshay-gurav-31/flickmatrix-ai.git
    cd flickmatrix-ai
    ```
 3. **Create a Feature Branch**:
