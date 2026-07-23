@@ -62,14 +62,16 @@ def get_similar_movies(
 
     items = []
     for rec in sims_list:
+        raw_genres = rec.get("genres", [])
+        g_list = list(raw_genres) if hasattr(raw_genres, "__iter__") else []
         items.append(
             RecommendationItem(
-                movie_id=rec["movie_id"],
-                title=rec["title"],
-                score=rec["score"],
-                genres=rec["genres"],
-                year=rec["year"],
-                explanation=rec["explanation"],
+                movie_id=int(rec["movie_id"]),
+                title=str(rec["title"]),
+                score=float(rec["score"]),
+                genres=[str(g) for g in g_list],
+                year=int(rec["year"]) if rec.get("year") else None,
+                explanation=str(rec["explanation"]),
                 poster_url=rec.get("poster_url"),
             )
         )
@@ -110,23 +112,24 @@ def search_movies(
 
     # Apply filters
     if query:
-        df = df[df["title"].str.contains(query, case=False, na=False)]
+        df = df[df["title"].str.contains(query, case=False, na=False, regex=False)]
         
     if genre:
         # Check if genre list contains selected genre
-        df = df[df["genre_list"].apply(lambda genres: genre.lower() in [g.lower() for g in genres])]
+        df = df[df["genre_list"].apply(lambda genres: genre.lower() in [str(g).lower() for g in genres])]
 
     # Sort search results by popularity (bayesian average) to return the most relevant titles first
     results_df = df.sort_values(by="bayesian_avg", ascending=False).head(limit)
 
     results = []
     for _, row in results_df.iterrows():
+        g_list = list(row["genre_list"]) if hasattr(row["genre_list"], "__iter__") else []
         results.append(
             {
                 "movie_id": int(row["movieId"]),
-                "title": row["title"],
-                "clean_title": row["clean_title"],
-                "genres": row["genre_list"],
+                "title": str(row["title"]),
+                "clean_title": str(row["clean_title"]),
+                "genres": [str(g) for g in g_list],
                 "year": int(row["year"]) if pd.notna(row["year"]) else None,
                 "bayesian_avg": round(float(row["bayesian_avg"]), 2),
                 "poster_url": row.get("poster_url"),
