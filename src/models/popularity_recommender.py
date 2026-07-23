@@ -162,11 +162,13 @@ class PopularityRecommender(BaseRecommender):
         # Calculate overlap score for other movies based on genre and popularity
         candidates = self.movies_df[self.movies_df["movieId"] != movie_id].copy()
         
-        def genre_overlap_score(genres_list: List[str]) -> float:
-            if not source_genres or not genres_list:
+        def genre_overlap_score(genres_list) -> float:
+            if not source_genres or genres_list is None or len(genres_list) == 0:
                 return 0.0
-            overlap = source_genres.intersection(set(genres_list))
-            return len(overlap) / len(source_genres.union(set(genres_list)))
+            target_genres = set(genres_list)
+            overlap = source_genres.intersection(target_genres)
+            union_len = len(source_genres.union(target_genres))
+            return len(overlap) / union_len if union_len > 0 else 0.0
             
         candidates["genre_similarity"] = candidates["genre_list"].apply(genre_overlap_score)
         
