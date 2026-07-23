@@ -53,7 +53,11 @@ def load_config(config_path: Optional[str] = None) -> DictConfig:
     Raises:
         ConfigError: If the file does not exist or cannot be parsed.
     """
+    from omegaconf import DictConfig
     from src.utils.exceptions import ConfigError
+
+    if isinstance(config_path, DictConfig):
+        return config_path
 
     path = Path(config_path) if config_path else DEFAULT_CONFIG_PATH
 

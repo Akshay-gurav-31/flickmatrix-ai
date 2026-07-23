@@ -117,8 +117,7 @@ def load_models():
 @st.cache_resource(show_spinner="Loading movie dataset...")
 def load_dataset():
     """Load the preprocessed dataset for search and metadata."""
-    cfg = load_config()
-    preprocessor = DataPreprocessor(cfg)
+    preprocessor = DataPreprocessor()
     data = preprocessor.run()
     return data
 
