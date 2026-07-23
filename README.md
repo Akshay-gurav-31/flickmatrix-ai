@@ -93,17 +93,14 @@ Downloads raw MovieLens data, preprocesses it, trains all 5 models, evaluates me
 python scripts/train.py --force-prep
 ```
 
-### 2. Start the API Backend (FastAPI)
+### 2. Launch All Services (One Command)
+Start both FastAPI backend (port 8000) and Streamlit dashboard (port 8501) together:
 ```bash
-uvicorn api.main:app --reload
+python start.py
 ```
-Swagger API docs available at [http://localhost:8000/docs](http://localhost:8000/docs).
 
-### 3. Launch the UI Dashboard (Streamlit)
-```bash
-streamlit run frontend/app.py
-```
-Open [http://localhost:8501](http://localhost:8501) in your browser.
+* **FastAPI Docs:** [http://localhost:8000/docs](http://localhost:8000/docs)
+* **Streamlit UI:** [http://localhost:8501](http://localhost:8501)
 
 ---
 
