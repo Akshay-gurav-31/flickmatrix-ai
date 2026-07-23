@@ -18,8 +18,6 @@ from src.data.preprocessor import ProcessedData
 from src.utils.exceptions import ModelNotTrainedError
 from src.models.popularity_recommender import PopularityRecommender
 from src.models.content_based_recommender import ContentBasedRecommender
-# pyrefly: ignore [missing-import]
-from src.models.user_cf_recommender import UserCFRecommender
 from src.models.item_cf_recommender import ItemCFRecommender
 from src.models.svd_recommender import SVDRecommender
 from src.models.hybrid_recommender import HybridRecommender
@@ -41,43 +39,14 @@ def mock_processed_data() -> ProcessedData:
     movies = pd.DataFrame(
         {
             "movieId": [1, 2, 3, 4, 5, 6],
-            "title": [
-                "Toy Story (1995)",
-                "Jumanji (1995)",
-                "Heat (1995)",
-                "Sabrina (1995)",
-                "GoldenEye (1995)",
-                "Unseen Movie (2020)"  # unrated
-            ],
-            "clean_title": ["Toy Story", "Jumanji", "Heat", "Sabrina", "GoldenEye", "Unseen Movie"],
-            "year": [1995, 1995, 1995, 1995, 1995, 2020],
-            "genre_list": [
-                ["Adventure", "Animation", "Children", "Comedy", "Fantasy"],
-                ["Adventure", "Children", "Fantasy"],
-                ["Action", "Crime", "Thriller"],
-                ["Comedy", "Romance"],
-                ["Action", "Adventure", "Thriller"],
-                ["Comedy", "Drama"]
-            ],
-            "genre_string": [
-                "Adventure Animation Children Comedy Fantasy",
-                "Adventure Children Fantasy",
-                "Action Crime Thriller",
-                "Comedy Romance",
-                "Action Adventure Thriller",
-                "Comedy Drama"
-            ],
-            "tag_string": ["pixar classic", "board game", "heist pacino", "remake romance", "james bond", ""],
-            "content_soup": [
-                "Adventure Animation Children Comedy Fantasy pixar classic",
-                "Adventure Children Fantasy board game",
-                "Action Crime Thriller heist pacino",
-                "Comedy Romance remake romance",
-                "Action Adventure Thriller james bond",
-                "Comedy Drama"
-            ],
-            "avg_rating": [4.16, 4.0, 4.75, 3.0, 3.25, 0.0],
+            "title": ["Toy Story (1995)", "Jumanji (1995)", "Grumpier Old Men (1995)", "Waiting to Exhale (1995)", "Father of the Bride (1995)", "Heat (1995)"],
+            "clean_title": ["Toy Story", "Jumanji", "Grumpier Old Men", "Waiting to Exhale", "Father of the Bride", "Heat"],
+            "year": [1995, 1995, 1995, 1995, 1995, 1995],
+            "genres": ["Animation|Children|Comedy", "Adventure|Children|Fantasy", "Comedy|Romance", "Comedy|Drama|Romance", "Comedy", "Action|Crime|Thriller"],
+            "genre_list": [["Animation", "Children", "Comedy"], ["Adventure", "Children", "Fantasy"], ["Comedy", "Romance"], ["Comedy", "Drama", "Romance"], ["Comedy"], ["Action", "Crime", "Thriller"]],
+            "content_soup": ["animation children comedy", "adventure children fantasy", "comedy romance", "comedy drama romance", "comedy", "action crime thriller"],
             "num_ratings": [3, 2, 2, 1, 2, 0],
+            "avg_rating": [4.16, 4.0, 4.75, 3.0, 3.25, 0.0],
             "bayesian_avg": [4.0, 3.9, 4.1, 3.2, 3.3, 3.5]
         }
     )
@@ -112,7 +81,6 @@ def test_untrained_model_raises_error():
     [
         PopularityRecommender,
         ContentBasedRecommender,
-        UserCFRecommender,
         ItemCFRecommender,
         SVDRecommender,
         HybridRecommender,
