@@ -153,68 +153,12 @@ st.markdown("<h1 style='text-align: center;'>🎬 FlickMatrix AI Recommendations
 st.markdown("<p style='text-align: center; color: #AEB2C6; font-size:18px;'>Deploying Hybrid Collaborative & Content Filtering Recommenders</p>", unsafe_allow_html=True)
 
 # Main Navigation tabs
-tab_rec, tab_discover, tab_metrics = st.tabs(
-    ["👤 Personal Recommendations", "🔍 Discover Similar Movies", "📊 Performance Analytics"]
+tab_discover, tab_metrics = st.tabs(
+    ["🔍 Discover Similar Movies", "📊 Performance Analytics"]
 )
 
 # =============================================================================
-# Tab 1: User recommendations
-# =============================================================================
-with tab_rec:
-    if not api_active:
-        st.warning("⚠️ Cannot fetch recommendations: FastAPI backend is offline.")
-    else:
-        st.subheader("Generate Personalized Movie Recommendations")
-        
-        # User selection
-        user_id = st.number_input(
-            "Select User ID", min_value=1, max_value=610, value=1, step=1
-        )
-        
-        if st.button("Generate Recommendations", type="primary"):
-            with st.spinner("Calculating recommendation scores..."):
-                payload = {
-                    "user_id": int(user_id),
-                    "n": int(num_recs),
-                    "model": selected_model,
-                    "exclude_seen": exclude_seen_items,
-                }
-                
-                try:
-                    res = requests.post(f"{API_BASE_URL}/recommend/user", json=payload)
-                    
-                    if res.status_code == 200:
-                        data = res.json()
-                        recs = data.get("recommendations", [])
-                        
-                        if not recs:
-                            st.info("No recommendations found for this user with current criteria.")
-                        else:
-                            st.write("---")
-                            
-                            # Render recommendations in premium text cards
-                            for idx, rec in enumerate(recs):
-                                clean_title = rec["title"]
-                                year_str = f" ({rec['year']})" if rec.get("year") else ""
-                                genres_str = ", ".join(rec["genres"])
-                                
-                                st.markdown(
-                                    f"""
-                                    <div class="movie-card">
-                                        <div class="movie-title">🍿 #{idx+1} {clean_title}{year_str}</div>
-                                        <div class="movie-meta">⭐ Score: <b>{rec['score']:.2f}</b> | Genres: <i>{genres_str}</i></div>
-                                        <div class="movie-explanation">💡 <b>Reason:</b> {rec['explanation']}</div>
-                                    </div>
-                                    """,
-                                    unsafe_allow_html=True,
-                                )
-                    else:
-                        st.error(f"Error fetching recommendations: {res.json().get('detail', 'Unknown error')}")
-                except Exception as e:
-                    st.error(f"Network request failed: {e}")
-
-# =============================================================================
-# Tab 2: Movie Discovery & Similarity
+# Tab 1: Movie Discovery & Similarity
 # =============================================================================
 with tab_discover:
     if not api_active:
