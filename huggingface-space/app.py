@@ -14,8 +14,12 @@ import streamlit as st
 # ---------------------------------------------------------------------------
 # Path setup — ensure src/ is importable
 # ---------------------------------------------------------------------------
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, ROOT_DIR)
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.abspath(os.path.join(CURRENT_DIR, ".."))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+if CURRENT_DIR not in sys.path:
+    sys.path.insert(0, CURRENT_DIR)
 
 from src.utils.helpers import load_config
 from src.data.preprocessor import DataPreprocessor
