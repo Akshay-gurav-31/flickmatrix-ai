@@ -105,7 +105,8 @@ st.markdown(
 )
 
 # ── Sidebar Configuration ───────────────────────────────────────────────────
-st.sidebar.markdown("<h2 style='color:#EB1E44;'>FlickMatrix AI</h2>", unsafe_allow_html=True)
+st.sidebar.image("assets/logo.png", use_container_width=True)
+st.sidebar.markdown("<h2 style='color:#EB1E44; text-align:center;'>FlickMatrix AI</h2>", unsafe_allow_html=True)
 st.sidebar.markdown("---")
 
 # Health indicator
