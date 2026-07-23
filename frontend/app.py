@@ -1,9 +1,8 @@
 """
-🎬 FlickMatrix AI — Premium Recommendation Dashboard.
+FlickMatrix AI — Premium Recommendation Dashboard.
 
 Streamlit frontend dashboard connecting to the FastAPI backend API.
 Provides:
-    - User personalized recommendations with simple explanations.
     - Movie search and similarity discovery.
     - Diagnostic metrics and charts showing model comparison (RMSE, MAE, Precision@10).
 """
@@ -23,7 +22,7 @@ cfg = load_config()
 # Configure page layout
 st.set_page_config(
     page_title=cfg.frontend.page_title,
-    page_icon=cfg.frontend.page_icon,
+    page_icon="film",
     layout=cfg.frontend.layout,
     initial_sidebar_state="expanded",
 )
@@ -106,16 +105,16 @@ st.markdown(
 )
 
 # ── Sidebar Configuration ───────────────────────────────────────────────────
-st.sidebar.markdown("<h2 style='color:#EB1E44;'>🎬 FlickMatrix AI</h2>", unsafe_allow_html=True)
+st.sidebar.markdown("<h2 style='color:#EB1E44;'>FlickMatrix AI</h2>", unsafe_allow_html=True)
 st.sidebar.markdown("---")
 
 # Health indicator
 api_active, loaded_models = check_api_health()
 if api_active:
-    st.sidebar.success("🟢 API Server: Online")
+    st.sidebar.success("API Server: Online")
 else:
-    st.sidebar.error("🔴 API Server: Offline")
-    st.sidebar.info("Run `uvicorn api.main:app --reload` to start the backend.")
+    st.sidebar.error("API Server: Offline")
+    st.sidebar.info("Run `python start.py` to start the services.")
 
 # Settings
 st.sidebar.subheader("System Settings")
@@ -149,12 +148,12 @@ st.sidebar.markdown(
 )
 
 # ── Title Header ─────────────────────────────────────────────────────────────
-st.markdown("<h1 style='text-align: center;'>🎬 FlickMatrix AI Recommendations</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>FlickMatrix AI Recommendations</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center; color: #AEB2C6; font-size:18px;'>Deploying Hybrid Collaborative & Content Filtering Recommenders</p>", unsafe_allow_html=True)
 
 # Main Navigation tabs
 tab_discover, tab_metrics = st.tabs(
-    ["🔍 Discover Similar Movies", "📊 Performance Analytics"]
+    ["Discover Similar Movies", "Performance Analytics"]
 )
 
 # =============================================================================
@@ -162,7 +161,7 @@ tab_discover, tab_metrics = st.tabs(
 # =============================================================================
 with tab_discover:
     if not api_active:
-        st.warning("⚠️ Discover tab disabled: FastAPI backend is offline.")
+        st.warning("Discover tab disabled: FastAPI backend is offline.")
     else:
         st.subheader("Explore Similar Movies")
         
@@ -195,8 +194,8 @@ with tab_discover:
                         
                         with col_info:
                             year_s = f" ({row['year']})" if row.get("year") else ""
-                            st.markdown(f"🎬 **{row['clean_title']}{year_s}**")
-                            st.markdown(f"Genres: *{', '.join(row['genres'])}* | FlickMatrix Avg: ⭐ {row['bayesian_avg']}")
+                            st.markdown(f"**{row['clean_title']}{year_s}**")
+                            st.markdown(f"Genres: *{', '.join(row['genres'])}* | FlickMatrix Avg: {row['bayesian_avg']}")
                             
                         with col_btn:
                             if st.button("Find Similar", key=f"sim_btn_{row['movie_id']}"):
@@ -233,16 +232,16 @@ with tab_discover:
                 st.markdown(
                     f"""
                     <div class="movie-card">
-                        <div class="movie-title">🍿 #{idx+1} {clean_title}{year_str}</div>
-                        <div class="movie-meta">🤝 Similarity: <b>{rec['score']:.2f}</b> | Genres: <i>{genres_str}</i></div>
-                        <div class="movie-explanation">💡 <b>Reason:</b> {rec['explanation']}</div>
+                        <div class="movie-title">#{idx+1} {clean_title}{year_str}</div>
+                        <div class="movie-meta">Similarity: <b>{rec['score']:.2f}</b> | Genres: <i>{genres_str}</i></div>
+                        <div class="movie-explanation"><b>Reason:</b> {rec['explanation']}</div>
                     </div>
                     """,
                     unsafe_allow_html=True,
                 )
 
 # =============================================================================
-# Tab 3: Performance Metrics & Diagnostics
+# Tab 2: Performance Metrics & Diagnostics
 # =============================================================================
 with tab_metrics:
     st.subheader("Model Benchmark Diagnostics")
@@ -253,7 +252,7 @@ with tab_metrics:
         """
     )
 
-    # Standard evaluations values from model testing (rounded based on standard MovieLens results)
+    # Standard evaluations values from model testing
     metric_data = {
         "Model": [
             "Popularity",
@@ -262,9 +261,9 @@ with tab_metrics:
             "SVD (Matrix Factorization)",
             "Hybrid Recommender",
         ],
-        "RMSE": [1.052, 1.118, 0.962, 0.873, 0.851],
-        "MAE": [0.824, 0.892, 0.753, 0.681, 0.658],
-        "Precision@10": [0.124, 0.181, 0.264, 0.281, 0.332],
+        "RMSE": [0.9184, 0.9496, 0.8547, 0.8665, 0.8499],
+        "MAE": [0.7089, 0.7355, 0.6465, 0.6639, 0.6496],
+        "Precision@10": [0.0186, 0.0113, 0.0216, 0.0371, 0.0412],
     }
 
     metrics_df = pd.DataFrame(metric_data)
@@ -274,22 +273,22 @@ with tab_metrics:
     with col_card1:
         st.metric(
             label="Lowest Prediction Error (Hybrid RMSE)",
-            value="0.8510",
-            delta="-2.5% improvement over SVD",
+            value="0.8499",
+            delta="-1.9% improvement over SVD",
             delta_color="normal",
         )
     with col_card2:
         st.metric(
             label="Average Absolute Rating Error (MAE)",
-            value="0.6580",
-            delta="-3.3% improvement over SVD",
+            value="0.6496",
+            delta="-2.2% improvement over SVD",
             delta_color="normal",
         )
     with col_card3:
         st.metric(
             label="Top Recommendation Quality (Precision@10)",
-            value="33.2%",
-            delta="+5.1% over SVD",
+            value="4.12%",
+            delta="+11.1% over SVD",
         )
 
     # Benchmark metrics native bar chart
@@ -307,7 +306,7 @@ with tab_metrics:
     st.markdown("### Benchmark Metrics Summary Table")
     
     styled_df = metrics_df.copy()
-    styled_df["Precision@10"] = styled_df["Precision@10"].apply(lambda x: f"{x:.1%}")
+    styled_df["Precision@10"] = styled_df["Precision@10"].apply(lambda x: f"{x:.2%}")
     st.dataframe(styled_df, use_container_width=True, hide_index=True)
 
     # Explanation section
