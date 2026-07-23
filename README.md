@@ -7,6 +7,7 @@
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![License MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Akshay-gurav-31/flickmatrix-ai/blob/main/LICENSE)
 [![CI](https://github.com/Akshay-gurav-31/flickmatrix-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/Akshay-gurav-31/flickmatrix-ai/actions/workflows/ci.yml)
+[![HuggingFace Space](https://img.shields.io/badge/%F0%9F%A4%97%20HuggingFace-Live%20Demo-FFD21E.svg)](https://huggingface.co/spaces/Akshaygurav/flickmatrix-ai)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-009688.svg)](https://fastapi.tiangolo.com/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-FF4B4B.svg)](https://streamlit.io/)
 
