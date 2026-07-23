@@ -145,6 +145,8 @@ st.sidebar.markdown(
     - Hybrid Blending
     - Personalized Recommendations
     - Explainable AI (XAI)
+    
+    [GitHub Repository](https://github.com/Akshay-gurav-31/flickmatrix-ai)
     """
 )
 
