@@ -1,10 +1,9 @@
-# 🎬 FlickMatrix AI — Production-Grade Movie Recommendation System
+# 🎬 FlickMatrix AI: Production-Grade Movie Recommendation System
 
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![License MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Akshay-gurav-31/flickmatrix-ai/blob/main/LICENSE)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-009688.svg)](https://fastapi.tiangolo.com/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-FF4B4B.svg)](https://streamlit.io/)
-[![CI](https://img.shields.io/github/actions/workflow/status/Akshay-gurav-31/flickmatrix-ai/ci.yml?label=CI)](https://github.com/Akshay-gurav-31/flickmatrix-ai/actions)
 
 A production-ready Movie Recommendation System built on the **MovieLens Latest-Small dataset** (100K ratings, 9,000 movies, 600 users). The codebase implements four recommendation models (Popularity, Content-Based, Item-Based Collaborative Filtering, and SVD Matrix Factorization), an ensembling Hybrid recommendation algorithm, a FastAPI serving backend, and a clean Streamlit dashboard client.
 
