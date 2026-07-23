@@ -1,14 +1,16 @@
 # 🎬 FlickMatrix AI — Production-Grade Movie Recommendation System
 
-![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)
-![License MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-009688.svg)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-FF4B4B.svg)
-![CI](https://img.shields.io/badge/CI-passing-brightgreen.svg)
+[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
+[![License MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Akshay-gurav-31/flickmatrix-ai/blob/main/LICENSE)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-009688.svg)](https://fastapi.tiangolo.com/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-FF4B4B.svg)](https://streamlit.io/)
+[![CI](https://img.shields.io/github/actions/workflow/status/Akshay-gurav-31/flickmatrix-ai/ci.yml?label=CI)](https://github.com/Akshay-gurav-31/flickmatrix-ai/actions)
 
 A production-ready Movie Recommendation System built on the **MovieLens Latest-Small dataset** (100K ratings, 9,000 movies, 600 users). The codebase implements four recommendation models (Popularity, Content-Based, Item-Based Collaborative Filtering, and SVD Matrix Factorization), an ensembling Hybrid recommendation algorithm, a FastAPI serving backend, and a clean Streamlit dashboard client.
 
 The project is structured with strict engineering standards including static type hints, robust exception handling, and centralized logging.
+
+> **GitHub:** https://github.com/Akshay-gurav-31/flickmatrix-ai
 
 ---
 
@@ -63,50 +65,46 @@ The models are evaluated against explicit rating prediction error (RMSE, MAE) an
 
 ## 🛠️ Installation & Setup
 
-### Local Environment Setup
+### Clone the Repository
 
-1. **Clone the repository:**
-   ```bash
-   git clone <repo-url>
-   cd recommendation-system
-   ```
+```bash
+git clone https://github.com/Akshay-gurav-31/flickmatrix-ai.git
+cd flickmatrix-ai
+```
 
-2. **Create virtual environment and install packages:**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows use: venv\Scripts\activate
-   pip install -r requirements.txt
-   ```
+### Install Dependencies
+
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
 
 ---
 
 ## 🚀 Running the Pipeline & Servers
 
-### 1. Execute ML Training Pipeline
-The CLI script downloads raw MovieLens small ZIP files, runs data cleansing, performs train/test splits, trains all models, evaluates metrics, and serialises model files:
+### 1. Train All Models
+Downloads raw MovieLens data, preprocesses it, trains all 5 models, evaluates metrics, and saves serialised artifacts to `artifacts/models/`:
 ```bash
 python scripts/train.py --force-prep
 ```
 
-### 2. Run Serving API Backend (FastAPI)
-Change to the sub-directory first, then start the server:
+### 2. Start the API Backend (FastAPI)
 ```bash
-cd recommendation-system
 uvicorn api.main:app --reload
 ```
-API docs will be available at [http://localhost:8000/docs](http://localhost:8000/docs).
+Swagger API docs available at [http://localhost:8000/docs](http://localhost:8000/docs).
 
-### 3. Run UI Dashboard (Streamlit)
+### 3. Launch the UI Dashboard (Streamlit)
 ```bash
 streamlit run frontend/app.py
 ```
-Open your browser at [http://localhost:8501](http://localhost:8501) to explore recommendations.
+Open [http://localhost:8501](http://localhost:8501) in your browser.
 
 ---
 
 ## 🧪 Testing
-
-We implement a simple verification test suite checking preprocessors and models fit/recommend contracts:
 
 ```bash
 pytest tests/ -v
@@ -116,24 +114,21 @@ pytest tests/ -v
 
 ## 📌 API Usage Examples
 
-### 1. Personalized Recommendations
-Returns top-N recommendations with natural language explanations:
+### Get Personalized Recommendations
 ```bash
 curl -X POST http://localhost:8000/recommend/user \
   -H "Content-Type: application/json" \
   -d '{"user_id": 1, "n": 10, "model": "hybrid", "exclude_seen": true}'
 ```
 
-### 2. Contextual Related Recommendations
-Returns related movies for a details page:
+### Get Movie-Based Recommendations
 ```bash
 curl -X POST http://localhost:8000/recommend/movie \
   -H "Content-Type: application/json" \
   -d '{"movie_id": 1, "n": 5, "model": "hybrid"}'
 ```
 
-### 3. Similar Movies
-Returns items with similar rating patterns:
+### Find Similar Movies
 ```bash
 curl -X POST http://localhost:8000/similar \
   -H "Content-Type: application/json" \
