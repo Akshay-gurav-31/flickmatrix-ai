@@ -1,0 +1,140 @@
+# =============================================================================
+# Recommendation System — Master Configuration
+# All paths are relative to the project root unless marked as absolute.
+# =============================================================================
+
+project:
+  name: "AI Recommendation System"
+  version: "1.0.0"
+  description: "Streamlined movie recommendation engine using MovieLens"
+  author: "ML Engineer"
+
+# =============================================================================
+# Paths
+# =============================================================================
+paths:
+  data_dir: "data"
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  artifacts_dir: "artifacts"
+  models_dir: "artifacts/models"
+  logs_dir: "logs"
+
+# =============================================================================
+# Dataset
+# =============================================================================
+data:
+  dataset_name: "ml-latest-small"
+  download_url: "https://files.grouplens.org/datasets/movielens/ml-latest-small.zip"
+  ratings_file: "ratings.csv"
+  movies_file: "movies.csv"
+  tags_file: "tags.csv"
+  links_file: "links.csv"
+
+  # Preprocessing
+  min_user_ratings: 20          # Users with fewer ratings are filtered out
+  min_movie_ratings: 10         # Movies with fewer ratings are filtered out
+  test_size: 0.2                # 80/20 train-test split
+  random_state: 42
+  rating_scale_min: 0.5
+  rating_scale_max: 5.0
+
+# =============================================================================
+# Models
+# =============================================================================
+models:
+
+  popularity:
+    # Bayesian average: score = (v/(v+m)) * R + (m/(v+m)) * C
+    min_votes_percentile: 70
+    top_n_default: 10
+
+  content_based:
+    tfidf_max_features: 5000
+    tfidf_ngram_range: [1, 2]
+    similarity_metric: "cosine"
+    top_n_default: 10
+    genre_weight: 0.6
+    tag_weight: 0.3
+    year_weight: 0.1
+
+  item_cf:
+    similarity_metric: "cosine"
+    k_neighbors: 50
+    min_common_users: 5
+    top_n_default: 10
+
+  svd:
+    n_factors: 100
+    n_epochs: 25
+    lr_all: 0.005
+    reg_all: 0.02
+    random_state: 42
+    top_n_default: 10
+
+  hybrid:
+    # Weights for each component (must sum to 1.0)
+    weights:
+      popularity: 0.10
+      content_based: 0.30
+      item_cf: 0.30
+      svd: 0.30
+    # Fallback weights when user has < cold_start_threshold ratings
+    cold_start_weights:
+      popularity: 0.40
+      content_based: 0.60
+      item_cf: 0.00
+      svd: 0.00
+    cold_start_threshold: 5
+    top_n_default: 10
+
+# =============================================================================
+# Evaluation
+# =============================================================================
+evaluation:
+  k_values: [10]
+  relevance_threshold: 4.0
+  n_test_users: 100
+  metrics:
+    - rmse
+    - mae
+    - precision_at_k
+
+# =============================================================================
+# API
+# =============================================================================
+api:
+  host: "0.0.0.0"
+  port: 8000
+  reload: false
+  workers: 1
+  title: "FlickMatrix AI"
+  description: "Production-ready movie recommendation engine"
+  version: "1.0.0"
+  docs_url: "/docs"
+  redoc_url: "/redoc"
+  cors_origins:
+    - "http://localhost:8501"
+    - "*"
+
+# =============================================================================
+# Frontend (Streamlit)
+# =============================================================================
+frontend:
+  api_base_url: "http://localhost:8000"
+  page_title: "🎬 FlickMatrix AI"
+  page_icon: "🎬"
+  layout: "wide"
+  default_n_recommendations: 10
+  max_n_recommendations: 50
+
+# =============================================================================
+# Logging
+# =============================================================================
+logging:
+  level: "INFO"
+  format: "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>"
+  log_file: "logs/recommendation_system.log"
+  rotation: "10 MB"
+  retention: "7 days"
+  compression: "zip"

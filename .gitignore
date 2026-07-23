@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments & Virtual Envs
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Data & Model Artifacts (re-creatable via scripts/train.py)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+logs/*.log
+mlruns/
+
+# IDE / OS specific
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
